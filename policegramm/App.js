@@ -27,18 +27,14 @@ export default class App extends React.Component {
     });
   }
 
-  createNewMarker = (coords) => {
+  createNewMarker = (coords, data) => {
     let newMarker = {
       id: this.i,
       coords: {
         latitude: coords.latitude,
         longitude: coords.longitude,
       },
-      data: {
-        title: 'Active',
-        description: 'Musata pidarasi',
-        image: require('./src/images/putin1.png'),
-      }
+      data: data,
     }
     this.setState({
       markers: [...this.state.markers, newMarker]

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, Button } from 'react-native';
 import MapView from 'react-native-maps';
+import CreateMarkerwindow from '../createMarkerWindow/CreateMarkerwindow';
 
 export default MyMap = ({ latitude, longitude, markers, createNewMarker }) => {
 
@@ -16,8 +17,8 @@ export default MyMap = ({ latitude, longitude, markers, createNewMarker }) => {
         });
     }
 
-    const createMarkerAndStopMode = () =>{
-        createNewMarker(createMarkerMode.coords);
+    const createMarkerAndStopMode = (data) =>{
+        createNewMarker(createMarkerMode.coords, data);
         setCreateMarkerMode({
             createMode : false,
             coords : {},
@@ -31,14 +32,22 @@ export default MyMap = ({ latitude, longitude, markers, createNewMarker }) => {
     }
 
 
+    const [activeImages, setActiveImages] = useState(false);
+    const [passiveImages, setPassiveImages] = useState(false);
+
+    const showActiveImg = () => {
+        setPassiveImages(false);
+        setActiveImages(true);
+    }
+
+    const showPassiveImg = () => {
+        setActiveImages(false);
+        setPassiveImages(true);
+    }
+
     return (
         createMarkerMode.createMode
-            ?
-            <View>
-                <Text>Создание метки</Text>
-                <Button title='Поставить метку' color='#3EABFB' onPress={createMarkerAndStopMode} />
-                <Button title='Отмена' color='red' onPress={stopMode} />
-            </View>
+            ? <CreateMarkerwindow createMarkerAndStopMode ={createMarkerAndStopMode} stopMode={stopMode} />
             :<MapView
                 style={styles.map}
                 onLongPress={(e) => {
@@ -62,7 +71,7 @@ export default MyMap = ({ latitude, longitude, markers, createNewMarker }) => {
                 >
                     <Image
                         source={require('../../images/i.jpg')}
-                        style={{ width: 50, height: 50 }}
+                        style={{ width: 40, height: 40 }}
                     />
                 </MapView.Marker>
                 {markers.map(marker => {
@@ -72,7 +81,7 @@ export default MyMap = ({ latitude, longitude, markers, createNewMarker }) => {
                             description= {marker.data.description}
                             key={marker.id} 
                             coordinate={marker.coords}>
-                                <Image source={marker.data.image} style={{ width: 50, height: 50 }} />
+                                <Image source={marker.data.image} style={{ width: 38, height: 63 }} />
                         </MapView.Marker>
                 })}
             </MapView>

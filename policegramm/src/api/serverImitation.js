@@ -9,7 +9,7 @@ export const allMarkers = [
         data: {
             title: 'Актив',
             description: 'Пидарасы в 3 палки хуярят --- 22.05.2020',
-            image: require('../images/active.png'),
+            image: require('../images/musor.png'),
         }
     },
     {
@@ -21,7 +21,7 @@ export const allMarkers = [
         data: {
             title: 'Актив',
             description: 'Мусара гондоны стопят всех --- 21.05.2020',
-            image: require('../images/putin1.png'),
+            image: require('../images/aktiv.png'),
         }
     },
     {
@@ -33,6 +33,6 @@ export const allMarkers = [
         data: {
             title: 'Пассив',
             description: 'Сидят в тачке долбоебы сука --- 22.05.2020',
-            image: require('../images/clear3.png'),
+            image: require('../images/venik.png'),
         }
     },];

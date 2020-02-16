@@ -1,8 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
-export default ImageMarker = ({source, setImage}) => {
-    return <TouchableOpacity onPress={() => setImage(source)}>
-        <Image source={source} style={{ width: 38, height: 63 }} />
-    </TouchableOpacity>
+export default ImageMarker = ({ source, changeImageToLeft, changeImageToRight }) => {
+    return <View style={{ flexDirection: 'row', justifyContent: 'space-around', }}>
+        <TouchableOpacity style ={styles.arrows} onPress={changeImageToLeft}>
+            <Image source={require('../../../images/controls/left.png')} style={{ width: 60, height: 30 }} />
+        </TouchableOpacity>
+        <Image source={source} style={{ width: 77, height: 125, marginHorizontal: 35, }} />
+        <TouchableOpacity style ={styles.arrows} onPress={changeImageToRight}>
+            <Image source={require('../../../images/controls/right.png')} style={{ width: 60, height: 30 }} />
+        </TouchableOpacity>
+    </View>
 }
+
+const styles = StyleSheet.create({
+    arrows: {
+        marginTop: 35,
+    },
+});

@@ -4,10 +4,25 @@ import ImageMarker from './ImageMarker/ImageMarker';
 
 export default CreateMarkerwindow = ({ createMarkerAndStopMode, stopMode }) => {
 
+    const activeImagesSource = [
+        require('../../images/markers/active.png'),
+        require('../../images/markers/i.jpg'),
+        require('../../images/markers/musor.png'),
+        require('../../images/markers/putin1.png'),
+    ];
+
+    const clearImagesSourses = [
+        require('../../images/markers/venik.png'),
+        require('../../images/markers/i.jpg'),
+        require('../../images/markers/chisto.png'),
+        require('../../images/markers/putin1.png'),
+    ];
+
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [activeImages, setActiveImages] = useState(false);
     const [passiveImages, setPassiveImages] = useState(false);
     const [markerDesc, setMarkerDesc] = useState('');
-    const [currentImage, setCurrentImage] = useState('');
+    //const [currentImage, setCurrentImage] = useState('');
 
     const setImage = (source) => {
         console.log(source);
@@ -24,67 +39,118 @@ export default CreateMarkerwindow = ({ createMarkerAndStopMode, stopMode }) => {
         setPassiveImages(true);
     }
 
-    const createMarker = () => {
-        if (markerDesc) {
-            if (activeImages || passiveImages) {
-                if (currentImage) {
-                    let title = activeImages ? 'Актив' : 'Пассив';
-                    let date = new Date();
-                    let data = {
-                        title: title,
-                        description: markerDesc + ' --- ' + date.getHours() + ':' + date.getMinutes(),
-                        image: currentImage, //require('../../images/venik.png')
-                    }
-                    createMarkerAndStopMode(data);
-                } else {
-                    Alert.alert('Выберите изображение к метке');
-                }
-            } else {
-                Alert.alert('Выберите актив или пассив');
-            }
+    const changeImageToLeft = () => {
+        if (currentIndex == 0) {
+            setCurrentIndex(activeImagesSource.length - 1);
         } else {
-            Alert.alert('Введите описание к метке');
+            let newIndex = currentIndex - 1;
+            setCurrentIndex(newIndex);
         }
     }
 
+    const changeImageToRight = () => {
+        if (currentIndex == activeImagesSource.length - 1) {
+            setCurrentIndex(0)
+        } else {
+            let newIndex = currentIndex + 1;
+            setCurrentIndex(newIndex);
+        }
+    }
+
+    const createMarker = () => {
+        let title = activeImages ? 'Актив' : 'Чисто';
+        let date = new Date();
+        let data = {
+            title: title,
+            description: markerDesc + ' --- ' + date.getHours() + ':' + date.getMinutes(),
+            image: activeImages ? activeImagesSource[currentIndex] : clearImagesSourses[currentIndex], //require('../../images/venik.png')
+        }
+        createMarkerAndStopMode(data);
+    }
+
     return (
-        <View>
-            <Text>Создание метки</Text>
-            <Button title='Актив' color='red' onPress={showActiveImg} />
-            <Button title='Пассив' color='#3EABFB' onPress={showPassiveImg} />
-            <Text>Выберите изображение для метки</Text>
+        <View style={styles.windowWrapper}>
+            <Text style={styles.header} >Создание метки</Text>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity onPress={showActiveImg} >
+                    <Image source={require('../../images/controls/aktiv.png')} style={{ width: 100, height: 40 }} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={showPassiveImg} >
+                    <Image source={require('../../images/controls/chisto.png')} style={{ width: 100, height: 40 }} />
+                </TouchableOpacity>
+            </View>
             {activeImages
                 &&
-                <View>
-                    <ImageMarker setImage={setImage} source={require('../../images/aktiv.png')} />
-                    <ImageMarker setImage={setImage} source={require('../../images/musor.png')} />
+                <View style={{ top: 100 }}>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={text => setMarkerDesc(text)}
+                        value={markerDesc}
+                        placeholder='Описание к метке'
+                    //keyboardType='numeric'
+                    />
+                    <ImageMarker
+                        source={activeImagesSource[currentIndex]}
+                        changeImageToLeft={changeImageToLeft}
+                        changeImageToRight={changeImageToRight}
+                    />
                 </View>
             }
             {passiveImages
                 &&
-                <View>
-                    <ImageMarker setImage={setImage} source={require('../../images/venik.png')} />
-                    <ImageMarker setImage={setImage} source={require('../../images/chisto.png')} />
+                <View style={{ top: 100 }}>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={text => setMarkerDesc(text)}
+                        value={markerDesc}
+                        placeholder='Описание к метке'
+                    //keyboardType='numeric'
+                    />
+                    <ImageMarker
+                        source={clearImagesSourses[currentIndex]}
+                        changeImageToLeft={changeImageToLeft}
+                        changeImageToRight={changeImageToRight} />
                 </View>
             }
-            <TextInput
-                style={styles.input}
-                onChangeText={text => setMarkerDesc(text)}
-                value={markerDesc}
-                placeholder='Описание к метке'
-            //keyboardType='numeric'
-            />
-            <Button title='Поставить метку' color='#3EABFB' onPress={createMarker} />
-            <Button title='Отмена' color='red' onPress={stopMode} />
+            { (passiveImages || activeImages)
+                &&
+                <TouchableOpacity onPress={createMarker} style ={{top: 110}} >
+                    <Image source={require('../../images/controls/createMarker.png')} style={{ width: 100, height: 40 }} />
+                </TouchableOpacity>
+            }
+            <View style={{ top: 450, position: 'absolute', }}>
+                <TouchableOpacity onPress={stopMode} >
+                    <Image source={require('../../images/controls/otmena.png')} style={{ width: 100, height: 40 }} />
+                </TouchableOpacity>
+            </View>
         </View>)
 }
 
 const styles = StyleSheet.create({
     input: {
         borderStyle: 'solid',
-        borderWidth: 2,
-        borderColor: '#3EABFB',
-        height: 40,
-        paddingLeft: 15,
+        borderBottomColor: '#3EABFB',
+        borderBottomWidth: 2,
+        paddingLeft: 5,
+        height: 70,
+        marginBottom: 10,
     },
+    windowWrapper: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        //justifyContent: 'center',
+        width: '100%',
+    },
+    header: {
+        fontSize: 25,
+        top: 30,
+    },
+    buttonWrapper: {
+        top: 50,
+        flexDirection: 'row',
+        width: '100%',
+        paddingHorizontal: 15,
+        justifyContent: 'space-around',
+    }
 });

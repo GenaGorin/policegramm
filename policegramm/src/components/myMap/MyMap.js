@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, TouchableOpacity } from 'react-native';
 import MapView from 'react-native-maps';
 import CreateMarkerwindow from '../createMarkerWindow/CreateMarkerwindow';
 
@@ -70,7 +70,7 @@ export default MyMap = ({ latitude, longitude, markers, createNewMarker }) => {
                     centerOffset={{ x: 0, y: -11 }}
                 >
                     <Image
-                        source={require('../../images/i.jpg')}
+                        source={require('../../images/markers/i.jpg')}
                         style={{ width: 40, height: 40 }}
                     />
                 </MapView.Marker>
@@ -81,7 +81,7 @@ export default MyMap = ({ latitude, longitude, markers, createNewMarker }) => {
                             description= {marker.data.description}
                             key={marker.id} 
                             coordinate={marker.coords}>
-                                <Image source={marker.data.image} style={{ width: 38, height: 63 }} />
+                                <Image source={marker.data.image} style={{ width: 39, height: 64 }} />
                         </MapView.Marker>
                 })}
             </MapView>

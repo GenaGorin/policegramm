@@ -6,16 +6,16 @@ export default CreateMarkerwindow = ({ createMarkerAndStopMode, stopMode }) => {
 
     const activeImagesSource = [
         require('../../images/markers/active.png'),
-        require('../../images/markers/i.jpg'),
-        require('../../images/markers/musor.png'),
-        require('../../images/markers/putin1.png'),
+        require('../../images/markers/active1.png'),
+        require('../../images/markers/active2.png'),
+        require('../../images/markers/active3.png'),
     ];
 
     const clearImagesSourses = [
-        require('../../images/markers/venik.png'),
-        require('../../images/markers/i.jpg'),
-        require('../../images/markers/chisto.png'),
-        require('../../images/markers/putin1.png'),
+        require('../../images/markers/clear.png'),
+        require('../../images/markers/clear1.png'),
+        require('../../images/markers/clear2.png'),
+        require('../../images/markers/clear3.png'),
     ];
 
     const [currentIndex, setCurrentIndex] = useState(0);

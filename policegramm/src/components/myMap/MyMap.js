@@ -70,7 +70,7 @@ export default MyMap = ({ latitude, longitude, markers, createNewMarker }) => {
                     centerOffset={{ x: 0, y: -11 }}
                 >
                     <Image
-                        source={require('../../images/markers/i.jpg')}
+                        source={require('../../images/markers/i.png')}
                         style={{ width: 40, height: 40 }}
                     />
                 </MapView.Marker>
